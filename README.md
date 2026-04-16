@@ -1,6 +1,6 @@
-# Fabric Loom
+# Engine Loom
 
-A [Gradle](https://gradle.org/) plugin to setup a deobfuscated development environment for Minecraft mods. Primarily used in the Fabric toolchain.
+A [Gradle](https://gradle.org/) plugin to setup a deobfuscated development environment for Minecraft mods. Primarily used in the Engine toolchain.
 
 * Has built in support for tiny mappings (Used by [Yarn](https://github.com/FabricMC/yarn))
 * Utilises the Fernflower and CFR decompilers to generate source code with comments.

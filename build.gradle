@@ -22,7 +22,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 	}
 }
 
-group = 'net.fabricmc'
+group = 'dev.scsupercraft.engine'
 def baseVersion = '1.16'
 
 def ENV = System.getenv()
@@ -194,7 +194,7 @@ spotless {
 	}
 
 	groovy {
-		importOrder('java', 'javax', '', 'net.fabricmc', '\\#')
+		importOrder('java', 'javax', '', 'net.fabricmc', 'dev.scsupercraft.engine', '\\#')
 		licenseHeaderFile(rootProject.file("HEADER")).yearSeparator("-")
 		greclipse()
 	}
@@ -225,24 +225,24 @@ codenarc {
 gradlePlugin {
 	plugins {
 		fabricLoom {
-			id = 'net.fabricmc.fabric-loom'
+			id = 'dev.scsupercraft.engine.loom'
 			implementationClass = 'net.fabricmc.loom.LoomNoRemapGradlePlugin'
 		}
 		fabricLoomRemap {
-			id = 'net.fabricmc.fabric-loom-remap'
+			id = 'dev.scsupercraft.engine.loom-remap'
 			implementationClass = 'net.fabricmc.loom.LoomRemapGradlePlugin'
 		}
 		fabricLoomLegacy {
 			// Legacy plugin id, remove in 2.0. Use `net.fabricmc.fabric-loom-remap`
-			id = 'fabric-loom'
+			id = 'engine-loom'
 			implementationClass = 'net.fabricmc.loom.LoomGradlePlugin'
 		}
 		fabricLoomCompanion {
-			id = 'net.fabricmc.fabric-loom-companion'
+			id = 'dev.scsupercraft.engine.loom-companion'
 			implementationClass = 'net.fabricmc.loom.LoomCompanionGradlePlugin'
 		}
 		fabricLoomRepositories {
-			id = 'net.fabricmc.fabric-loom-repositories'
+			id = 'dev.scsupercraft.engine.loom-repositories'
 			implementationClass = 'net.fabricmc.loom.LoomRepositoryPlugin'
 		}
 	}
@@ -314,9 +314,9 @@ publishing {
 						Node dependencies = root.appendChild(document.createElement('dependencies'))
 						Node dependency = dependencies.appendChild(document.createElement('dependency'))
 						Node groupId = dependency.appendChild(document.createElement('groupId'))
-						groupId.setTextContent('net.fabricmc')
+						groupId.setTextContent('dev.scsupercraft.engine')
 						Node artifactId = dependency.appendChild(document.createElement('artifactId'))
-						artifactId.setTextContent('fabric-loom')
+						artifactId.setTextContent('engine-loom')
 						Node version = dependency.appendChild(document.createElement('version'))
 						version.setTextContent(project.version)
 					})
@@ -342,7 +342,7 @@ tasks.register('writeActionsTestMatrix') {
 	doLast {
 		def testMatrix = []
 		def extendedTests = Boolean.parseBoolean(System.getenv('EXTENDED_TESTS') ?: 'false')
-		file('src/test/groovy/net/fabricmc/loom/test/integration').eachFile {
+		file('src/test/groovy/dev/scsupercraft/engine/loom/test/integration').eachFile {
 			if (it.name.endsWith("Test.groovy")) {
 				if (it.name.endsWith("ReproducibleBuildTest.groovy")) {
 					// This test gets a special case to run across all os's
@@ -355,14 +355,14 @@ tasks.register('writeActionsTestMatrix') {
 				}
 
 				def className = it.name.replace(".groovy", "")
-				testMatrix.add("net.fabricmc.loom.test.integration.${className}")
+				testMatrix.add("dev.scsupercraft.engine.loom.test.integration.${className}")
 			} else if (it.name.endsWith("noRemap")) {
-				testMatrix.add("net.fabricmc.loom.test.integration.noRemap.*")
+				testMatrix.add("dev.scsupercraft.engine.loom.test.integration.noRemap.*")
 			}
 		}
 
 		// Run all the unit tests together
-		testMatrix.add("net.fabricmc.loom.test.unit.*")
+		testMatrix.add("dev.scsupercraft.engine.loom.test.unit.*")
 
 		def json = groovy.json.JsonOutput.toJson(testMatrix)
 		def output = file("build/test_matrix.json")

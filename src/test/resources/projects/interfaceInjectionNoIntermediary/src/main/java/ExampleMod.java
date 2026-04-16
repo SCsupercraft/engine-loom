@@ -1,5 +1,5 @@
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.Registry;
+import net.minecraft.world.level.block.Blocks;
 
 import net.fabricmc.api.ModInitializer;
 
